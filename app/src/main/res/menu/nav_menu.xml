@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/perfil"
+        android:icon="@drawable/icon_perfil"
+        android:title="Perfil" />
+
+    <item
+        android:id="@+id/store"
+        android:icon="@drawable/icon_loja"
+        android:title="Loja" />
+
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/icon_mapa"
+        android:title="Mapa" />
+    <item
+        android:id="@+id/achiv"
+        android:icon="@drawable/icon_achivements"
+        android:title="Achivements" />
+    <item
+        android:id="@+id/def"
+        android:icon="@drawable/icon_definicoes"
+        android:title="Mapa" />
+
+</menu>
