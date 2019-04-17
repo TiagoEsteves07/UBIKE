@@ -5,7 +5,12 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="STORE"/>
+        android:text="STORE"
+        android:textAlignment="center"
+        android:textSize="50dp"
+        android:background="#40C029"/>
+
 </RelativeLayout>

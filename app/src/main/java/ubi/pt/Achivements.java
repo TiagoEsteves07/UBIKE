@@ -13,6 +13,6 @@ public class Achivements extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.perfil,null);
+        return inflater.inflate(R.layout.achivements,null);
     }
 }
