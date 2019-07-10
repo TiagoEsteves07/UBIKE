@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
 
-    <TextView
-        android:id="@+id/text1"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_loja"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="STORE"
-        android:textAlignment="center"
-        android:textSize="50dp"
-        android:background="#40C029"/>
+        android:layout_height="wrap_content"
+        android:background="@color/colorToolbar"
+        app:title="LOJA"/>
 
-</RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/produtos_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+    </ScrollView>
+
+</LinearLayout>

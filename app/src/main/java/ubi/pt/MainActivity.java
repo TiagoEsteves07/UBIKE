@@ -3,57 +3,60 @@ package ubi.pt;
 import android.os.Bundle;
 
 import android.view.MenuItem;
-import android.view.View;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
+import android.app.Fragment;
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, new Perfil()).commit();
+
     }
 
-    private boolean loadFragment(Fragment fragment){
-        if(fragment != null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container,fragment).commit();
-            return true;
-        }
-        return false;
-    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
+
+
         Fragment fragment = null;
 
         switch (item.getItemId()){
             case R.id.perfil:
-                fragment = new Perfil();
+                getFragmentManager().beginTransaction().replace(R.id.frame_container, new Perfil()).commit();
                 break;
+
             case R.id.store:
-                fragment = new Store();
+                getFragmentManager().beginTransaction().replace(R.id.frame_container, new Store()).commit();
                 break;
+
             case R.id.map:
-                fragment = new Map();
+                getFragmentManager().beginTransaction().replace(R.id.frame_container, new Map()).commit();
                 break;
+
             case R.id.achiv:
-                fragment = new Achivements();
+                getFragmentManager().beginTransaction().replace(R.id.frame_container, new Achivements()).commit();
                 break;
+
             case R.id.def:
-                fragment = new Definitions();
+                getFragmentManager().beginTransaction().replace(R.id.frame_container, new ContarPassos()).commit();
                 break;
         }
-        return loadFragment(fragment);
+        return true;
     }
 
 

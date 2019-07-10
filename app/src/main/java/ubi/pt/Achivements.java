@@ -7,12 +7,23 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import android.app.Fragment;
 
 public class Achivements extends Fragment {
+
+    Toolbar toolbar;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.achivements,null);
+
+        View view = inflater.inflate(R.layout.achivements,null);
+
+        toolbar = view.findViewById(R.id.toolbar_achivements);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        return view;
     }
 }

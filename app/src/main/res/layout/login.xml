@@ -1,67 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent">
+    android:background="@color/colorFundo"
+    android:orientation="vertical"
+    >
 
-
-
-    <ImageView
-        android:id="@+id/iLogoUbi"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="134dp"
-        android:src="@drawable/logo_ubi_vhorizontal" />
-
-    <ImageView
-        android:id="@+id/iLogoUbike"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="209dp"
-        android:layout_marginTop="130dp"
-        android:src="@drawable/u_bike" />
-
-
-    <EditText
-        android:id="@+id/eUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="235dp"
-        android:ems="10"
-        android:hint="User Name"
-        android:background="#ffff"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/ePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="160dp"
-        android:ems="10"
-        android:background="#ffff"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:autofillHints=""
-        />
-
-    <Button
-        android:id="@+id/bInSessao"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
-        android:text="Iniciar Sessão"
-        android:onClick="confirmar"/>
+        android:gravity="center"
+        android:layout_marginTop="30dp">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/iLogoUbi"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/logo_ubi_vhorizontal" />
+
+        <ImageView
+            android:id="@+id/iLogoUbike"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_toEndOf="@+id/iLogoUbi"
+            android:src="@drawable/u_bike" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <EditText
+            android:id="@+id/eUserName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/user_pass_radius"
+            android:hint="exemplo@ubi.pt"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/ePassword"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingLeft="20dp"
+            android:inputType="textPassword"
+            android:background="@drawable/user_pass_radius"
+            android:hint="Password"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="40dp"
+        >
+
+        <Button
+            android:id="@+id/bInSessao"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/b_login_radius"
+            android:textColor="#ffff"
+            android:onClick="confirmar"
+            android:text="Iniciar Sessão"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bRegistar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/bInSessao"
+            android:background="@drawable/b_login_radius"
+            android:textColor="#ffff"
+            android:onClick="registar"
+            android:text="Registar"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</LinearLayout>

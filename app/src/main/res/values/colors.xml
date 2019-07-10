@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorPrimary">#CDDBE7</color>
-    <color name="colorAccent">#415259</color>
+    <color name="colorPrimary">#D6E6DF</color>
+    <color name="colorAccent">#788792</color>
     <color name="colorControlNormal">#000000</color>
     <color name="rosa">#EE3375</color>
+    <color name="colorFundo">#18D8C7</color>
+    <color name="colorToolbar">#B2CAC8</color>
 </resources>
