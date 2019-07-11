@@ -1,4 +1,3 @@
-
 package ubi.pt;
 
 import android.app.DatePickerDialog;
@@ -6,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Objects;
 
 
 public class Registar extends AppCompatActivity {
@@ -40,6 +40,12 @@ public class Registar extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener data;
     private TextView tData;
 
+    private String nome;
+    private String email;
+    private String id;
+    private String password;
+    private String eNdata;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registar);
@@ -49,6 +55,8 @@ public class Registar extends AppCompatActivity {
         eNid = (EditText) findViewById(R.id.eNid);
         eNpassword = (EditText) findViewById(R.id.eNpassword);
         tData = (TextView) findViewById(R.id.tData);
+
+
 
 
         data = new DatePickerDialog.OnDateSetListener() {
@@ -66,25 +74,25 @@ public class Registar extends AppCompatActivity {
 
     public void rConfirmar(View v) {
 
-        final String nome = eNnome.getText().toString();
-        final String email = eNemail.getText().toString();
-        final String id = eNid.getText().toString();
-        final String password = eNpassword.getText().toString();
-        final String eNdata = tData.getText().toString();
 
         final Map<String, Object> pessoa = new HashMap<>();
 
+        nome = eNnome.getText().toString();
+        email = eNemail.getText().toString();
+        id = eNid.getText().toString();
+        password = eNpassword.getText().toString();
+        eNdata = tData.getText().toString();
 
+        boolean bool = confirmarCampos(nome,email,eNdata,id,password);
 
-
-        if (!confirmarCampos(nome,email,eNdata,id,password)){
+        if (!bool){
 
             fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    final String user_id = fAuth.getCurrentUser().getUid();
+                    String user_id = fAuth.getCurrentUser().getUid();
 
                     if (task.isSuccessful()) {
                         pessoa.put("user_id", user_id);
@@ -121,6 +129,7 @@ public class Registar extends AppCompatActivity {
                         finish();
 
                     }else{
+
                         Toast.makeText(Registar.this, "O email já existe", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -153,6 +162,11 @@ public class Registar extends AppCompatActivity {
             eNnome.requestFocus();
             return true;
         }
+        if (!typeEmail(email)){
+            eNemail.setError("Escreva um email válido");
+            eNemail.requestFocus();
+            return true;
+        }
         if (email.isEmpty()){
             eNemail.setError("Necessário preencher o email");
             eNemail.requestFocus();
@@ -177,7 +191,9 @@ public class Registar extends AppCompatActivity {
         return false;
     }
 
-
+    boolean typeEmail (CharSequence email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
 
 }

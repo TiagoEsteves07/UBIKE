@@ -1,10 +1,7 @@
 package ubi.pt;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,8 +21,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 
 public class ContarPassos extends Fragment implements SensorEventListener {
+
+    private FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private String user_id;
 
     private SensorManager sensorManager;
     private TextView count;
@@ -38,9 +49,15 @@ public class ContarPassos extends Fragment implements SensorEventListener {
     private Chronometer cronometro;
     private long pausa;
 
+    float metros = 0;
+    int aux =0;
+
     private int cont;
     private int numeroFeito;
     private int contador;
+
+    private float totalP=0;
+    private String pontos;
 
     @Nullable
     @Override
@@ -48,6 +65,7 @@ public class ContarPassos extends Fragment implements SensorEventListener {
 
         View view = inflater.inflate(R.layout.contar_passos,null);
 
+        aux=0;
         bIniciar = (Button) view.findViewById(R.id.bIniciar);
         bTerminar = (Button) view.findViewById(R.id.bTerminar);
 
@@ -59,6 +77,13 @@ public class ContarPassos extends Fragment implements SensorEventListener {
 
         cronometro = view.findViewById(R.id.cronometro);
 
+
+
+        user_id=fAuth.getCurrentUser().getUid();
+
+
+        //Contar Passos
+        contador =0;
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if(countSensor != null) {
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
@@ -69,6 +94,7 @@ public class ContarPassos extends Fragment implements SensorEventListener {
         bIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                aux =1;
                 cronometro.setBase(SystemClock.elapsedRealtime());
                 pausa = 0;
                 contador =0;
@@ -89,13 +115,51 @@ public class ContarPassos extends Fragment implements SensorEventListener {
         bTerminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                aux =0;
                 if(running){
                     cronometro.stop();
                     pausa = SystemClock.elapsedRealtime()-cronometro.getBase();
                     running = false;
+
+                    metros = (float) (contador*0.61);
+
+                    //Busacar os dados do utilizador
+                    CollectionReference pessoaRef = db.collection("pessoa");
+                    Query pessoaQuery = pessoaRef.whereEqualTo("user_id", user_id);
+
+                    pessoaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            Pessoa pessoa = new Pessoa();
+
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot doc: task.getResult()){
+                                    pessoa = doc.toObject(Pessoa.class);
+                                }
+
+                                pontos = pessoa.getPontos();
+
+                                totalP = Integer.parseInt(pontos) + metros;
+                                pessoa.setPontos(String.valueOf(totalP));
+                                System.out.println(totalP);
+                                Toast.makeText(getActivity(),"Fez "+ totalP +"metros" ,Toast.LENGTH_LONG).show();
+
+
+                            }
+                        }
+                    });
+
+
+
                 }
             }
         });
+
+
+
+
         return view;
     }
 
@@ -103,19 +167,23 @@ public class ContarPassos extends Fragment implements SensorEventListener {
     @Override
     public void onResume() {
         super.onResume();
-        running = true;
-        Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if(countSensor != null) {
-            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        } else {
-            Toast.makeText(getActivity(), "Count sensor not available!", Toast.LENGTH_LONG).show();
+
+        if(aux==1) {
+            running = true;
+            Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            if (countSensor != null) {
+                sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
+            } else {
+                Toast.makeText(getActivity(), "Count sensor not available!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        running = false;
+        pausa = SystemClock.elapsedRealtime()-cronometro.getBase();
+        running = true;
     }
 
 

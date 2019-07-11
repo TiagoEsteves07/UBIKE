@@ -1,11 +1,17 @@
 package ubi.pt;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.app.Fragment;
 import android.widget.Toast;
 
@@ -27,12 +36,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class Perfil extends Fragment {
 
     Toolbar toolbar;
 
+    private Uri mainImage = null;
     private ImageView imagem;
+
+    private Button bGuardar;
 
     private TextView tNome;
     private TextView tEmail;
@@ -53,7 +69,8 @@ public class Perfil extends Fragment {
 
         View view = inflater.inflate(R.layout.perfil, null);
 
-        imagem = view.findViewById(R.id.imgUser);
+        imagem = view.findViewById(R.id.iUser);
+        bGuardar = view.findViewById(R.id.guardarI);
 
         tNome = view.findViewById(R.id.tNome);
         tEmail = view.findViewById(R.id.tEmail);
@@ -102,75 +119,75 @@ public class Perfil extends Fragment {
             }
         });
 
+        /*
         imagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user_id = fAuth.getCurrentUser().getUid();
-                StorageReference img = storageReference.child("img_perfil").child(user_id+".jpg");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(getActivity(),"Permission Denied", Toast.LENGTH_LONG).show();
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
-                    img.putFile(imagem).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful()){
+                    }else {
 
-                            Uri uri_carregado = task.getResult().getUploadSessionUri();
-                            Toast.makeText(getActivity(),"Imagem carregada com sucesso : ", Toast.LENGTH_LONG).show();
+                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(getActivity());
 
-                        }else{
-                            String erro = task.getException().getMessage();
-                            Toast.makeText(getActivity(),"Erro : " + erro, Toast.LENGTH_LONG).show();
-                        }
                     }
-                });
-            }
-        });
-
-
-        return view;
-    }
-
-
-
-    /*
-    public void carregarImagem(View v){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-
-                Toast.makeText(activity,"Permission Denied",Toast.LENGTH_LONG).show();
-                ((AppCompatActivity)getActivity()).requestPermissions( new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-
-            }else{
-
-                Toast.makeText(activity,"You already have permission",Toast.LENGTH_LONG).show();
-
-
-            }
-        }
-
-
-    }*/
-
-    /*
-    public void carregarImagem(View v){
-String user_id = fAuth.getCurrentUser().getUid();
-        StorageReference img = storageReference.child("img_perfil").child(user_id+".jpg");
-
-        img.putFile(imagem_perfil).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-
-                    Uri uri_carregado = task.getResult().getUploadSessionUri();
-                    Toast.makeText(getActivity(),"Imagem carregada com sucesso : ", Toast.LENGTH_LONG).show();
-
-                }else{
-                    String erro = task.getException().getMessage();
-                    Toast.makeText(getActivity(),"Erro : " + erro, Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+        bGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mainImage != null){
 
+                    StorageReference image_path = storageReference.child("profile_images").child(user_id + ".jpg");
+                    image_path.putFile(mainImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                            if(task.isSuccessful()){
+
+                                //AQUI
+                                Uri download_uri = task.getResult().getDownloadUrl();
+                                Log.d("Erro", "errrrooooo: " + download_uri);
+
+                            }else{
+                                String erro = task.getException().getMessage();
+                                Toast.makeText(getActivity(),"Erro: "+erro, Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
+                }
+            }
+        });
+        */
+
+        return view;
+    }
+
+    /*
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                mainImage = result.getUri();
+                imagem.setImageURI(mainImage);
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+
+                Exception error = result.getError();
+                Toast.makeText(getActivity(),"Erro "+ error, Toast.LENGTH_LONG).show();
+
+
+            }
+        }
     }*/
-
 }

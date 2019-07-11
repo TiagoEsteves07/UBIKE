@@ -149,12 +149,13 @@
         android:id="@+id/bNregistar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textColor="#fff"
+        android:textColor="#ffff"
         android:background="@drawable/b_login_radius"
-        android:hint="Confirmar Registo"
+        android:text="Confirmar Registo"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:onClick="rConfirmar"/>
+
 
 
 

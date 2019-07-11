@@ -44,6 +44,7 @@ public class Store extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
+
         Query query = db.collection("produto");
 
 
