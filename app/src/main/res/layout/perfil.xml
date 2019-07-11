@@ -40,8 +40,7 @@
                 android:layout_marginBottom="9dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/perfil_default"
-                android:onClick="carregarImagem"/>
+                android:src="@drawable/perfil_default"/>
 
 
             <TextView

@@ -13,13 +13,11 @@
         android:background="@color/colorToolbar"
         app:title="ACHIVEMENTS"/>
 
-    <TextView
-        android:id="@+id/text1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerA"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ACHIVEMENTS"
-        android:textAlignment="center"
-        android:textSize="50dp"
-        android:background="#FA1A22"/>
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

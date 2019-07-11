@@ -7,4 +7,5 @@
     <color name="rosa">#EE3375</color>
     <color name="colorFundo">#18D8C7</color>
     <color name="colorToolbar">#B2CAC8</color>
+    <color name="recyclerView">#62917F</color>
 </resources>

@@ -24,18 +24,6 @@ public class Pessoa {
         this.pontos = pontos;
     }
 
-    @Override
-    public String toString() {
-        return "Pessoa{" +
-                "user_id='" + user_id + '\'' +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", data=" + data +
-                ", distancia=" + distancia +
-                ", idBicicleta=" + idBicicleta +
-                ", pontos=" + pontos +
-                '}';
-    }
 
     public String getUser_id() {
         return user_id;

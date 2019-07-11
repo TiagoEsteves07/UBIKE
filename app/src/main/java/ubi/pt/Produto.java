@@ -2,29 +2,48 @@ package ubi.pt;
 
 public class Produto {
 
-    public String nomeP;
-    public int pontosP;
+    public String nome;
+    public String pontos;
+    public String quantidade;
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "nome='" + nome + '\'' +
+                ", pontos='" + pontos + '\'' +
+                ", quantidade='" + quantidade + '\'' +
+                '}';
+    }
 
     public Produto(){}
 
-    public Produto(String nomeP, int pontosP) {
-        this.nomeP = nomeP;
-        this.pontosP = pontosP;
+    public Produto(String nome, String pontos, String quantidade) {
+        this.nome = nome;
+        this.pontos = pontos;
+        this.quantidade = quantidade;
     }
 
-    public String getNomeP() {
-        return nomeP;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeP(String nomeP) {
-        this.nomeP = nomeP;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public int getPontosP() {
-        return pontosP;
+    public String getPontos() {
+        return pontos;
     }
 
-    public void setPontosP(int pontosP) {
-        this.pontosP = pontosP;
+    public void setPontos(String pontos) {
+        this.pontos = pontos;
+    }
+
+    public String getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(String quantidade) {
+        this.quantidade = quantidade;
     }
 }

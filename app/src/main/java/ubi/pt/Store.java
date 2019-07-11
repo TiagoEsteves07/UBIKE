@@ -1,9 +1,11 @@
 package ubi.pt;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,62 +14,94 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Fragment;
-
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Store extends Fragment {
+public class Store extends Fragment{
 
     Toolbar toolbar;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private List<Produto> produto_lista;
-    private RecyclerView produto_listView;
-    private ProdutoRecyclerAdapter produtoRecyclerAdapter;
+    private RecyclerView recyclerView;
+
+    private FirestoreRecyclerAdapter<Produto, ProdutoViewHolder> adapterP;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.store,container,false);
+        View view = inflater.inflate(R.layout.store,null);
+
+
 
         toolbar = view.findViewById(R.id.toolbar_loja);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        produto_listView = (RecyclerView) view.findViewById(R.id.produtos_list);
-        produto_listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.produtos_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        Query query = db.collection("produto");
+
+
+        FirestoreRecyclerOptions<Produto> option = new FirestoreRecyclerOptions.Builder<Produto>()
+                .setQuery(query, Produto.class)
+                .build();
 
 
 
-
-        db.collection("prduto").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        adapterP = new FirestoreRecyclerAdapter<Produto, ProdutoViewHolder>(option) {
             @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
-
-                for(DocumentChange doc: queryDocumentSnapshots.getDocumentChanges()){
-
-                    if(doc.getType() == DocumentChange.Type.ADDED){
-                        Produto produto = doc.getDocument().toObject(Produto.class);
-                        produto_lista.add(produto);
-
-                        produtoRecyclerAdapter.notifyDataSetChanged();
-
-                    }
-
-                }
-
+            protected void onBindViewHolder(@NonNull ProdutoViewHolder produtoViewHolder, int i, @NonNull Produto produto) {
+                produtoViewHolder.setProduto(produto.nome,produto.pontos);
             }
-        });
+
+            @NonNull
+            @Override
+            public ProdutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_produtos,parent,false);
+
+                return new ProdutoViewHolder(view);
+            }
+        };
+        recyclerView.setAdapter(adapterP);
 
         return view;
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapterP.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapterP.stopListening();
+    }
+
+    private class ProdutoViewHolder extends RecyclerView.ViewHolder{
+        private View view;
+
+        public ProdutoViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            view = itemView;
+        }
+
+        void setProduto(String nomeProduto, String pontosProduto){
+            TextView tnome = view.findViewById(R.id.nomeP);
+            TextView tpontos = view.findViewById(R.id.pontosP);
+
+            tnome.setText(nomeProduto);
+            tpontos.setText(pontosProduto);
+        }
     }
 
 }

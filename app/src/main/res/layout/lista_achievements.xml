@@ -16,32 +16,39 @@
 
         <TextView
             android:textColor="#fff"
-            android:id="@+id/nomeP"
+            android:id="@+id/descricaoA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nome"
+            android:text="Descrição"
             android:textSize="20dp"/>
 
         <TextView
-            android:layout_toLeftOf="@+id/p"
             android:textColor="#fff"
-            android:layout_marginLeft="50dp"
-            android:id="@+id/pontosP"
+            android:layout_toRightOf="@+id/descricaoA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KM"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:textColor="#fff"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/p"
+            android:id="@+id/pontosA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pontos"
             android:textSize="20dp"/>
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
+            android:textColor="#fff"
             android:id="@+id/p"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:textColor="#fff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="pontos"/>
+            android:text="pontos"
+            android:textSize="20dp"/>
 
     </RelativeLayout>
 
