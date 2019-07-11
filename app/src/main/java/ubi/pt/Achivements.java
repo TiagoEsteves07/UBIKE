@@ -69,6 +69,8 @@ public class Achivements extends Fragment {
 
 
 
+
+
         return view;
 
     }

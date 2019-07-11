@@ -11,10 +11,11 @@ public class Pessoa {
     private String distancia;
     private String idBicicleta;
     private String pontos;
+    private String doc_id;
 
     public Pessoa(){}
 
-    public Pessoa(String user_id, String nome, String email, String data, String distancia, String idBicicleta, String pontos) {
+    public Pessoa(String user_id, String nome, String email, String data, String distancia, String idBicicleta, String pontos, String doc_id) {
         this.user_id = user_id;
         this.nome = nome;
         this.email = email;
@@ -22,8 +23,16 @@ public class Pessoa {
         this.distancia = distancia;
         this.idBicicleta = idBicicleta;
         this.pontos = pontos;
+        this.doc_id = doc_id;
     }
 
+    public String getDoc_id() {
+        return doc_id;
+    }
+
+    public void setDoc_id(String doc_id) {
+        this.doc_id = doc_id;
+    }
 
     public String getUser_id() {
         return user_id;

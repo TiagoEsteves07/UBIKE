@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -93,6 +94,7 @@ public class Registar extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     String user_id = fAuth.getCurrentUser().getUid();
+                    DocumentReference dr = db.collection("pessoa").document();
 
                     if (task.isSuccessful()) {
                         pessoa.put("user_id", user_id);
@@ -102,11 +104,10 @@ public class Registar extends AppCompatActivity {
                         pessoa.put("idBicicleta", id);
                         pessoa.put("distancia", "0");
                         pessoa.put("pontos", "0");
+                        pessoa.put("doc_id",dr.getId());
 
 
-                        db.collection("pessoa")
-                                .document()
-                                .set(pessoa)
+                        dr.set(pessoa)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

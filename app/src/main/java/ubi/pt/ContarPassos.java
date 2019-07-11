@@ -49,15 +49,17 @@ public class ContarPassos extends Fragment implements SensorEventListener {
     private Chronometer cronometro;
     private long pausa;
 
-    float metros = 0;
+
     int aux =0;
 
     private int cont;
     private int numeroFeito;
     private int contador;
 
-    private float totalP=0;
-    private String pontos;
+    float metros = 0;
+    float totalP=0;
+
+    private String doc_id;
 
     @Nullable
     @Override
@@ -115,8 +117,6 @@ public class ContarPassos extends Fragment implements SensorEventListener {
         bTerminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 aux =0;
                 if(running){
                     cronometro.stop();
@@ -125,36 +125,12 @@ public class ContarPassos extends Fragment implements SensorEventListener {
 
                     metros = (float) (contador*0.61);
 
-                    //Busacar os dados do utilizador
-                    CollectionReference pessoaRef = db.collection("pessoa");
-                    Query pessoaQuery = pessoaRef.whereEqualTo("user_id", user_id);
-
-                    pessoaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            Pessoa pessoa = new Pessoa();
-
-                            if(task.isSuccessful()){
-                                for (QueryDocumentSnapshot doc: task.getResult()){
-                                    pessoa = doc.toObject(Pessoa.class);
-                                }
-
-                                pontos = pessoa.getPontos();
-
-                                totalP = Integer.parseInt(pontos) + metros;
-                                pessoa.setPontos(String.valueOf(totalP));
-                                System.out.println(totalP);
-                                Toast.makeText(getActivity(),"Fez "+ totalP +"metros" ,Toast.LENGTH_LONG).show();
-
-
-                            }
-                        }
-                    });
-
-
+                    setPontosDB();
 
                 }
+
             }
+
         });
 
 
@@ -163,6 +139,42 @@ public class ContarPassos extends Fragment implements SensorEventListener {
         return view;
     }
 
+    public void setPontosDB(){
+
+        //Busacar os dados do utilizador
+        CollectionReference pessoaRef = db.collection("pessoa");
+        Query pessoaQuery = pessoaRef.whereEqualTo("user_id", user_id);
+        pessoaQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Pessoa pessoa = new Pessoa();
+
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot doc: task.getResult()){
+                        pessoa = doc.toObject(Pessoa.class);
+                    }
+
+                    String pontos = pessoa.getDistancia();
+                    doc_id = pessoa.getDoc_id();
+
+                    totalP = Float.parseFloat(pontos) + metros;
+                    System.out.println(pontos);
+                    System.out.println(metros);
+                    System.out.println(totalP);
+
+                    Toast.makeText(getActivity(),"Fez "+ metros +"metros" ,Toast.LENGTH_LONG).show();
+
+                    //set dos pontos
+                    db.collection("pessoa").document(doc_id)
+                            .update(
+                                    "distancia", Float.toString(totalP)
+                            );
+
+                }
+            }
+        });
+
+    }
 
     @Override
     public void onResume() {
@@ -196,6 +208,5 @@ public class ContarPassos extends Fragment implements SensorEventListener {
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 }
