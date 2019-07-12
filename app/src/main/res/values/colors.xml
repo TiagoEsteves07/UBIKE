@@ -8,4 +8,5 @@
     <color name="colorFundo">#18D8C7</color>
     <color name="colorToolbar">#B2CAC8</color>
     <color name="recyclerView">#62917F</color>
+    <color name="pontos_ach">#38978D</color>
 </resources>

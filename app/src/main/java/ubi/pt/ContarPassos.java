@@ -125,7 +125,7 @@ public class ContarPassos extends Fragment implements SensorEventListener {
 
                     metros = (float) (contador*0.61);
 
-                    setPontosDB();
+                    setDistanciaDB();
 
                 }
 
@@ -139,7 +139,7 @@ public class ContarPassos extends Fragment implements SensorEventListener {
         return view;
     }
 
-    public void setPontosDB(){
+    public void setDistanciaDB(){
 
         //Busacar os dados do utilizador
         CollectionReference pessoaRef = db.collection("pessoa");
@@ -158,13 +158,10 @@ public class ContarPassos extends Fragment implements SensorEventListener {
                     doc_id = pessoa.getDoc_id();
 
                     totalP = Float.parseFloat(pontos) + metros;
-                    System.out.println(pontos);
-                    System.out.println(metros);
-                    System.out.println(totalP);
 
                     Toast.makeText(getActivity(),"Fez "+ metros +"metros" ,Toast.LENGTH_LONG).show();
 
-                    //set dos pontos
+                    //set da distancia
                     db.collection("pessoa").document(doc_id)
                             .update(
                                     "distancia", Float.toString(totalP)

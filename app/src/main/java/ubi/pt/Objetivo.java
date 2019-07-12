@@ -1,6 +1,7 @@
 package ubi.pt;
 
-public class Objetivo {
+
+public class Objetivo{
     public String descricao;
     public int id;
     public String pontos;
