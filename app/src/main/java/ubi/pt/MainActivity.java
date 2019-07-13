@@ -8,6 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Fragment;
+
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.map:
-                getFragmentManager().beginTransaction().replace(R.id.frame_container, new Map()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.frame_container, new BlankFragment()).commit();
                 break;
 
             case R.id.achiv:

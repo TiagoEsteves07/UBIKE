@@ -119,75 +119,8 @@ public class Perfil extends Fragment {
             }
         });
 
-        /*
-        imagem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                        Toast.makeText(getActivity(),"Permission Denied", Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-
-                    }else {
-
-                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(getActivity());
-
-                    }
-                }
-            }
-        });
-
-        bGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mainImage != null){
-
-                    StorageReference image_path = storageReference.child("profile_images").child(user_id + ".jpg");
-                    image_path.putFile(mainImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
-                            if(task.isSuccessful()){
-
-                                //AQUI
-                                Uri download_uri = task.getResult().getDownloadUrl();
-                                Log.d("Erro", "errrrooooo: " + download_uri);
-
-                            }else{
-                                String erro = task.getException().getMessage();
-                                Toast.makeText(getActivity(),"Erro: "+erro, Toast.LENGTH_LONG).show();
-                            }
-
-                        }
-                    });
-
-                }
-            }
-        });
-        */
-
         return view;
     }
 
-    /*
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-
-                mainImage = result.getUri();
-                imagem.setImageURI(mainImage);
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-
-                Exception error = result.getError();
-                Toast.makeText(getActivity(),"Erro "+ error, Toast.LENGTH_LONG).show();
-
-
-            }
-        }
-    }*/
 }

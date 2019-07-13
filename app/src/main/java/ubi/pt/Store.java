@@ -46,8 +46,6 @@ public class Store extends Fragment{
 
 
         Query query = db.collection("produto");
-
-
         FirestoreRecyclerOptions<Produto> option = new FirestoreRecyclerOptions.Builder<Produto>()
                 .setQuery(query, Produto.class)
                 .build();

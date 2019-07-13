@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/store"
-        android:icon="@drawable/icon_loja"
+        android:icon="@drawable/icons_store"
         android:title="Loja" />
 
     <item
@@ -18,10 +18,10 @@
     <item
         android:id="@+id/achiv"
         android:icon="@drawable/icon_achivements"
-        android:title="Achivements" />
+        android:title="Achievements" />
     <item
         android:id="@+id/def"
-        android:icon="@drawable/icon_definicoes"
-        android:title="Definições" />
+        android:icon="@drawable/icon_loja"
+        android:title="Atividade" />
 
 </menu>

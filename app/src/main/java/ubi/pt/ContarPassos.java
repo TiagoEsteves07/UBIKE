@@ -163,9 +163,7 @@ public class ContarPassos extends Fragment implements SensorEventListener {
 
                     //set da distancia
                     db.collection("pessoa").document(doc_id)
-                            .update(
-                                    "distancia", Float.toString(totalP)
-                            );
+                            .update("distancia", Float.toString(totalP));
 
                 }
             }

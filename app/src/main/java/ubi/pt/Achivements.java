@@ -59,12 +59,8 @@ public class Achivements extends Fragment {
         View view = inflater.inflate(R.layout.achivements,null);
 
 
-
-
         toolbar = view.findViewById(R.id.toolbar_achivements);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
-
 
         guardarObjetivos();
 
@@ -152,11 +148,10 @@ public class Achivements extends Fragment {
                             fDescricao = (float) arrayDescricao.get(i);
 
 
-                            if(Float.compare(fDistancia,fDescricao) > 0){
+                            if(Float.compare(fDistancia,fDescricao) > 0 ){
                                 total = total + arrayPontos.get(i);
                             }
                         }
-                        System.out.println(total);
 
                         tpontos = getActivity().findViewById(R.id.achivPontos);
                         tpontos.setText(Integer.toString(total));
